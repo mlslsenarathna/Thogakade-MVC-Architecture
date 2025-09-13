@@ -7,7 +7,8 @@ public interface CustomerManagementService {
     void addCustomerDetails(Customer customer);
     void updateCustomerDetails(Customer customer);
      ObservableList<Customer> getAllCustomers();
-    void deleteCustomerDetails(String custPhone);
+    void deleteCustomerDetails(String custId);
+    String getLastID();
 }
 
 

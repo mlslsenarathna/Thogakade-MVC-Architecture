@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -12,12 +14,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import model.dto.Customer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CustomerManagmentFormController implements Initializable {
+    CustomerManagementService customerManagementService=new CustomerManagementController();
     ObservableList<Customer> customerDetails = FXCollections.observableArrayList();
 
     @FXML
@@ -36,7 +41,7 @@ public class CustomerManagmentFormController implements Initializable {
     private Button btnUpdateCustomer;
 
     @FXML
-    private ComboBox<?> cmdCustomerTitle;
+    private ComboBox<String> cmdCustomerTitle;
 
     @FXML
     private TableColumn<?, ?> colAddress;
@@ -94,40 +99,91 @@ public class CustomerManagmentFormController implements Initializable {
 
     @FXML
     void btnAddCustomerOnAction(ActionEvent event) {
+        Customer customer=new Customer(
+                txtCustomerId.getText(),
+                cmdCustomerTitle.getValue(),
+                txtCustomerName.getText(),
+                doBBirthday.getValue(),
+                Double.parseDouble(txtCustomerSalary.getText()),
+                txtCustomerAddress.getText(),
+                txtCustomerCity.getText(),
+                txtCustomerProvince.getText(),
+                txtCustomerPostalCode.getText()
+
+        );
+        customerManagementService.addCustomerDetails(customer);
+        loadCustomerDetails();
+        resetForm();
 
     }
 
     @FXML
     void btnBack(ActionEvent event) {
+        Stage stage= (Stage) btnBack.getScene().getWindow();
+
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/MainPage.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
     @FXML
     void btnClearForm(ActionEvent event) {
+        resetForm();
 
     }
 
     @FXML
     void btnDeleteCustomerOnAction(ActionEvent event) {
+        customerManagementService.deleteCustomerDetails(txtCustomerId.getText());
+        resetForm();
+        loadCustomerDetails();
 
     }
 
+    private void resetForm() {
+        setCustomerID();
+        cmdCustomerTitle.setValue("");
+        txtCustomerName.setText("");
+        doBBirthday.setValue(null);
+        txtCustomerSalary.setText("");
+        txtCustomerAddress.setText("");
+        txtCustomerCity.setText("");
+        txtCustomerProvince.setText("");
+        txtCustomerPostalCode.setText("");
+
+    }
+
+
+
     @FXML
     void btnUpdateCustomerOnAction(ActionEvent event) {
+
+        Customer customer=new Customer(
+                txtCustomerId.getText(),
+                cmdCustomerTitle.getValue(),
+                txtCustomerName.getText(),
+                doBBirthday.getValue(),
+                Double.parseDouble(txtCustomerSalary.getText()),
+                txtCustomerAddress.getText(),
+                txtCustomerCity.getText(),
+                txtCustomerProvince.getText(),
+                txtCustomerPostalCode.getText()
+
+        );
+        customerManagementService.updateCustomerDetails(customer);
+        loadCustomerDetails();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        /*  private String custId;
-    private String title;
-    private String name;
-    private LocalDate dob;
-    private double salary;
-    private String address;
-    private String city;
-    private String province;
-    private String postalCode;*/
+        setCustomerID();
+        loadCustomerTitles();
+
         colId.setCellValueFactory(new PropertyValueFactory<>("custId"));
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -139,15 +195,51 @@ public class CustomerManagmentFormController implements Initializable {
         colPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         loadCustomerDetails();
 
+        tblCustomerView.getSelectionModel().selectedItemProperty().addListener((ObservableValue,oldValue,newValue)->{
+            if(newValue!=null){
+                setSelectedValue(newValue);
+            }
+
+        });
+
+
+
+    }
+
+    private void loadCustomerTitles() {
+        cmdCustomerTitle.getItems().addAll("Mr", "Mrs", "Ms", "Miss", "Dr", "Rev");
+
+    }
+
+    private void setSelectedValue(Customer newValue) {
+        txtCustomerId.setText(newValue.getCustId());
+        cmdCustomerTitle.setValue(newValue.getTitle());
+        txtCustomerName.setText(newValue.getName());
+        doBBirthday.setValue(newValue.getDob());
+        txtCustomerSalary.setText(String.valueOf(newValue.getSalary()));
+        txtCustomerAddress.setText(newValue.getAddress());
+        txtCustomerCity.setText(newValue.getCity());
+        txtCustomerProvince.setText(newValue.getProvince());
+        txtCustomerPostalCode.setText(newValue.getPostalCode());
 
 
     }
 
     private void loadCustomerDetails() {
         customerDetails.clear();
-        customerDetails= CustomerManagementService.getAllCustomers();
+        customerDetails= customerManagementService.getAllCustomers();
         tblCustomerView.setItems(customerDetails);
 
 
+    }
+    private void setCustomerID() {
+        txtCustomerId.setText("");
+        if(customerManagementService.getLastID()!=null){
+            String lastId=customerManagementService.getLastID();
+            lastId = lastId.split("[A-Z]")[1]; // C001==> 001
+            lastId= String.format("C%03d",(Integer.parseInt(lastId)+1));
+            txtCustomerId.setText(lastId);
+
+        }
     }
 }

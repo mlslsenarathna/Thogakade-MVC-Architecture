@@ -10,10 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="539.0" prefWidth="1354.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customerController.CustomerManagmentFormController">
    <children>
-      <Label layoutX="346.0" layoutY="14.0" prefHeight="54.0" prefWidth="287.0" text="Customer   Managment" textFill="#0c8896">
+      <Label layoutX="455.0" layoutY="14.0" prefHeight="54.0" prefWidth="287.0" text="Customer   Managment" textFill="#0c8896">
          <font>
             <Font name="System Bold Italic" size="24.0" />
          </font>
@@ -120,18 +119,23 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Button>
-      <TableView fx:id="tblCustomerView" layoutX="490.0" layoutY="154.0" prefHeight="231.0" prefWidth="792.0">
+      <TableView fx:id="tblCustomerView" layoutX="490.0" layoutY="126.0" prefHeight="352.0" prefWidth="856.0">
         <columns>
           <TableColumn fx:id="colId" prefWidth="75.0" text="Id" />
-          <TableColumn fx:id="colTitle" prefWidth="57.5999755859375" text="Title" />
-            <TableColumn fx:id="colName" prefWidth="92.79998779296875" text="Name" />
-            <TableColumn fx:id="colDoB" prefWidth="75.0" text="DoB" />
-            <TableColumn fx:id="colSalary" prefWidth="89.60003662109375" text="Salary" />
-            <TableColumn fx:id="colAddress" prefWidth="73.5999755859375" text="Address" />
-            <TableColumn fx:id="colCity" prefWidth="95.199951171875" text="City" />
-            <TableColumn fx:id="colProvince" prefWidth="112.800048828125" text="Province" />
-            <TableColumn fx:id="colPostalCode" prefWidth="115.199951171875" text="Postal-Code" />
+          <TableColumn fx:id="colTitle" prefWidth="55.20001220703125" text="Title" />
+            <TableColumn fx:id="colName" prefWidth="111.20001220703125" text="Name" />
+            <TableColumn fx:id="colDoB" prefWidth="92.0" text="DoB" />
+            <TableColumn fx:id="colSalary" prefWidth="98.39996337890625" text="Salary" />
+            <TableColumn fx:id="colAddress" prefWidth="133.5999755859375" text="Address" />
+            <TableColumn fx:id="colCity" prefWidth="98.39990234375" text="City" />
+            <TableColumn fx:id="colProvince" prefWidth="102.4000244140625" text="Province" />
+            <TableColumn fx:id="colPostalCode" prefWidth="90.400146484375" text="Postal-Code" />
         </columns>
       </TableView>
+      <Label layoutX="1194.0" layoutY="490.0" prefHeight="34.0" prefWidth="145.0" text="MLSLSenarathna" textFill="#0c8896">
+         <font>
+            <Font name="System Bold Italic" size="17.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
