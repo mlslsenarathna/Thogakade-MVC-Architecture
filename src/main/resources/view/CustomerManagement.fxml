@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="539.0" prefWidth="1354.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customerController.CustomerManagmentFormController">
+<AnchorPane prefHeight="539.0" prefWidth="1354.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.customerController.CustomerManagementFormController">
    <children>
       <Label layoutX="455.0" layoutY="14.0" prefHeight="54.0" prefWidth="287.0" text="Customer   Managment" textFill="#0c8896">
          <font>
@@ -98,7 +98,7 @@
             <Font name="System Bold Italic" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnClearForm" layoutX="364.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnClearForm" text="Clear Form" textFill="#0c8896">
+      <Button fx:id="btnClearForm" layoutX="364.0" layoutY="462.0" mnemonicParsing="false" onAction="#btnClearForm" text="Reset Form" textFill="#0c8896">
          <font>
             <Font name="System Bold Italic" size="18.0" />
          </font>

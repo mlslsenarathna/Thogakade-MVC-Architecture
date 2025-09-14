@@ -28,7 +28,7 @@ public class MainPageController {
         Stage stage= (Stage) btnCustomerManagement.getScene().getWindow();
 
         try {
-            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/CustomerManagment.fxml"))));
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/CustomerManagement.fxml"))));
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -44,6 +44,15 @@ public class MainPageController {
 
     @FXML
     void btnItemsManagerOnAction(ActionEvent event) {
+        Stage stage= (Stage)  btnItemsManager.getScene().getWindow();
+
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/ItemManagement.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 

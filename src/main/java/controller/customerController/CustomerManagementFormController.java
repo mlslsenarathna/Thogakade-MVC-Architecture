@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CustomerManagmentFormController implements Initializable {
+public class CustomerManagementFormController implements Initializable {
     CustomerManagementService customerManagementService=new CustomerManagementController();
     ObservableList<Customer> customerDetails = FXCollections.observableArrayList();
 
@@ -176,6 +176,7 @@ public class CustomerManagmentFormController implements Initializable {
         );
         customerManagementService.updateCustomerDetails(customer);
         loadCustomerDetails();
+        resetForm();
 
     }
 
@@ -233,7 +234,6 @@ public class CustomerManagmentFormController implements Initializable {
 
     }
     private void setCustomerID() {
-        txtCustomerId.setText("");
         if(customerManagementService.getLastID()!=null){
             String lastId=customerManagementService.getLastID();
             lastId = lastId.split("[A-Z]")[1]; // C001==> 001
