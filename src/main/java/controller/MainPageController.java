@@ -58,6 +58,16 @@ public class MainPageController {
 
     @FXML
     void btnOrderManagementOnAction(ActionEvent event) {
+        Stage stage= (Stage)  btnOrderManagement.getScene().getWindow();
+
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/OrdersManagement.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
     }
 

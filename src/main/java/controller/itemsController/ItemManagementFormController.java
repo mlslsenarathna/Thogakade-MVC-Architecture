@@ -181,7 +181,7 @@ public class ItemManagementFormController implements Initializable {
     private void setItemID() {
         if(itemManagementService.getLastID()!=null){
             String lastId=itemManagementService.getLastID();
-            lastId = lastId.split("[A-Z]")[1]; // C001==> 001
+            lastId = lastId.split("[A-Z]")[1]; // P001==> 001
             lastId= String.format("P%03d",(Integer.parseInt(lastId)+1));
             txtItemId.setText(lastId);
 

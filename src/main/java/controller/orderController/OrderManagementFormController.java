@@ -11,9 +11,11 @@ import javafx.scene.control.TextField;
 import model.dto.Item;
 
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class OrderManagementFormController implements Initializable {
+    OrderManagementService orderManagementService=new OrderManagementController();
 
     @FXML
     private Button btnAddToCart;
@@ -150,9 +152,21 @@ public class OrderManagementFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOrderId();
+        setDate();
         
     }
 
+    private void setDate() {
+        txtDate.setText(LocalDate.now().toString());
+    }
+
     private void setOrderId() {
+        if(orderManagementService.getLastID()!=null){
+            String lastId=orderManagementService.getLastID();
+            lastId = lastId.split("[A-Z]")[1]; // D001==> 001
+            lastId= String.format("D%03d",(Integer.parseInt(lastId)+1));
+            txtOrderId.setText(lastId);
+
+        }
     }
 }
