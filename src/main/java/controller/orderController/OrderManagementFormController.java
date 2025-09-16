@@ -131,6 +131,11 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnSearchCustIdOnAction(ActionEvent event) {
+        double Totalprice=orderManagementService.customerTotalValue(txtCustomerId.getText());
+        txtCustomerTotalCount.setText(String.valueOf(Totalprice));
+        txtCustomerAddress.setText(orderManagementService.getCustomer(txtCustomerId.getText()).getAddress());
+        txtCustomerName.setText(orderManagementService.getCustomer(txtCustomerId.getText()).getName());
+
 
     }
 

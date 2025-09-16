@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="559.0" prefWidth="1189.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.orderController.OrderManagementFormController">
    <children>
       <Label layoutX="459.0" layoutY="17.0" prefHeight="54.0" prefWidth="276.0" text="Order-Management" textFill="#0c8896">
@@ -122,7 +121,7 @@
             <Font name="System Bold Italic" size="17.0" />
          </font>
       </Label>
-      <TextField fx:id="txtCustomerId" editable="false" layoutX="923.0" layoutY="62.0" prefHeight="30.0" prefWidth="107.0" style="-fx-background-color: #B4B4B4;">
+      <TextField fx:id="txtCustomerId" layoutX="923.0" layoutY="62.0" prefHeight="30.0" prefWidth="107.0" style="-fx-background-color: #B4B4B4;">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
