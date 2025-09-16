@@ -10,4 +10,6 @@ public interface ItemManagementService {
     ObservableList<Item> getAllItems();
     void deleteItemDetails(String custId);
     String getLastID();
+
+
 }

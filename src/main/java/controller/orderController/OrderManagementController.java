@@ -93,6 +93,28 @@ select*from item;
 
 
     }
+
+    @Override
+    public ObservableList<String> getItems() {
+        ObservableList<String> itemList=FXCollections.observableArrayList();
+        String SQL="SELECT ItemCode FROM item";
+        try {
+            Connection connection=DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                 itemList.add(resultSet.getString("ItemCode")
+                       );
+            }
+            return itemList;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     /*select*from orderdetail;
 +---------+----------+----------+----------+
 | OrderID | ItemCode | OrderQTY | Discount

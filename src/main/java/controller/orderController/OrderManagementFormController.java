@@ -8,8 +8,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import model.dto.Item;
 
+import javax.swing.*;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -48,19 +50,19 @@ public class OrderManagementFormController implements Initializable {
     private ComboBox<String> cmdItemId;
 
     @FXML
-    private TableColumn<?, ?> colItemCode;
+    private TableColumn<Item, String> colItemCode;
 
     @FXML
-    private TableColumn<?, ?> colItemDescription;
+    private TableColumn<Item, String> colItemDescription;
 
     @FXML
-    private TableColumn<?, ?> colItemPackageSize;
+    private TableColumn<Item, String> colItemPackageSize;
 
     @FXML
-    private TableColumn<?, ?> colItemQuantity;
+    private TableColumn<Item, Integer> colItemQuantity;
 
     @FXML
-    private TableColumn<?, ?> colPrice;
+    private TableColumn<Item, Double> colPrice;
 
     @FXML
     private TableView<Item> tblItemCartVeiw;
@@ -96,7 +98,7 @@ public class OrderManagementFormController implements Initializable {
     private TextField txtPackageSize;
 
     @FXML
-    private TextField txtQuantityOnHand;
+    private TextField txtOrderQTY;
 
     @FXML
     private TextField txtTotalPrice;
@@ -106,6 +108,34 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
+        String itemID=cmdItemId.getSelectionModel().getSelectedItem();
+        Item item=orderManagementService.getItem(itemID);
+        double itemsValue=item.getUnitPrice()*Integer.parseInt(txtOrderQTY.getText());
+
+        for(Item existing:tblItemCartVeiw.getItems()){
+            if(existing.getItemCode().equals(item.getItemCode())){
+                int newItenQTY= Integer.parseInt(txtOrderQTY.getText())+existing.getQtyOnHand();
+                existing.setQtyOnHand(newItenQTY);
+                existing.setUnitPrice((item.getUnitPrice() * newItenQTY));
+                tblItemCartVeiw.refresh();
+                calculateOrderTotal();
+                txtOrderQTY.clear();
+                return;
+
+            }
+        }
+        tblItemCartVeiw.getItems().add(
+                new Item(item.getItemCode(),
+                        item.getDescription(),
+                        item.getPackSize(),
+                        itemsValue,
+                        Integer.parseInt(txtOrderQTY.getText())));
+        calculateOrderTotal();
+        txtOrderQTY.setText("");
+
+
+
+
 
     }
 
@@ -116,6 +146,13 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnDeleteItemFromCartOnAction(ActionEvent event) {
+        Item selectedItem=tblItemCartVeiw.getSelectionModel().getSelectedItem();
+        if(selectedItem!=null){
+            tblItemCartVeiw.getItems().remove(selectedItem);
+            calculateOrderTotal();
+        }else {
+            JOptionPane.showMessageDialog(null,"No item Selected..");
+        }
 
     }
 
@@ -126,6 +163,8 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnResetCartOnAction(ActionEvent event) {
+        tblItemCartVeiw.getItems().clear();
+        calculateOrderTotal();
 
     }
 
@@ -146,6 +185,32 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnUpdateItemInCartOnAction(ActionEvent event) {
+        String itemID=cmdItemId.getSelectionModel().getSelectedItem();
+        Item item=orderManagementService.getItem(itemID);
+        double itemsValue=item.getUnitPrice()*Integer.parseInt(txtOrderQTY.getText());
+
+        for(Item existing:tblItemCartVeiw.getItems()){
+            if(existing.getItemCode().equals(item.getItemCode())){
+                int newItenQTY= Integer.parseInt(txtOrderQTY.getText());
+                existing.setQtyOnHand(newItenQTY);
+                existing.setUnitPrice((item.getUnitPrice() * newItenQTY));
+                tblItemCartVeiw.refresh();
+                calculateOrderTotal();
+                txtOrderQTY.clear();
+                return;
+
+            }
+        }
+        tblItemCartVeiw.getItems().add(
+                new Item(item.getItemCode(),
+                        item.getDescription(),
+                        item.getPackSize(),
+                        itemsValue,
+                        Integer.parseInt(txtOrderQTY.getText())));
+        calculateOrderTotal();
+        txtOrderQTY.setText("");
+
+
 
     }
 
@@ -158,7 +223,37 @@ public class OrderManagementFormController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setOrderId();
         setDate();
-        
+        setItems();
+        calculateOrderTotal();
+
+
+        colItemCode.setCellValueFactory(new PropertyValueFactory<Item,String>("itemCode"));
+        colItemDescription.setCellValueFactory(new PropertyValueFactory<Item,String>("description"));
+        colItemPackageSize.setCellValueFactory(new PropertyValueFactory<Item,String>("packSize"));
+        colPrice.setCellValueFactory(new PropertyValueFactory<Item,Double>("unitPrice"));
+        colItemQuantity.setCellValueFactory(new PropertyValueFactory<Item,Integer>("qtyOnHand"));
+
+        cmdItemId.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                Item item=orderManagementService.getItem(newVal);
+                txtDescription.setText(item.getDescription());
+                txtPackageSize.setText(item.getPackSize());
+                txtInStock.setText(String.valueOf(item.getQtyOnHand()));
+                txtUnitPrice.setText(String.valueOf(item.getUnitPrice()));
+
+            }
+        });
+
+    }
+    private double  calculateOrderTotal(){
+        double total=tblItemCartVeiw.getItems().stream().mapToDouble(Item::getUnitPrice).sum();
+        txtTotalPrice.setText("Rs."+total+"0");
+       return total;
+    }
+
+    private void setItems() {
+        cmdItemId.setItems(orderManagementService.getItems());
+
     }
 
     private void setDate() {

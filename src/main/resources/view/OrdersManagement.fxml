@@ -62,7 +62,7 @@
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Label>
-      <TextField fx:id="txtQuantityOnHand" layoutX="871.0" layoutY="206.0" prefHeight="30.0" prefWidth="107.0" style="-fx-background-color: #B4B4B4;">
+      <TextField fx:id="txtOrderQTY" layoutX="871.0" layoutY="206.0" prefHeight="30.0" prefWidth="107.0" style="-fx-background-color: #B4B4B4;">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

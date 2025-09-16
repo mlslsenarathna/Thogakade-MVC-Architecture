@@ -17,4 +17,5 @@ public interface OrderManagementService {
     ObservableList<OrderDetail> getOrderDetailsInSameOrderID(String orderId);
 
     Item getItem(String itemId);
+    ObservableList<String> getItems();
 }
