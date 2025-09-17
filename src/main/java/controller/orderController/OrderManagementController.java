@@ -115,6 +115,25 @@ select*from item;
 
     }
 
+    @Override
+    public void updatStockCount(String itemID,int sellQTY) {
+        String SQL="UPDATE item SET QtyOnHand = ? WHERE ItemCode = ?";
+        Item item=getItem(itemID);
+
+        try {
+            Connection connection=DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+            preparedStatement.setObject(1,(item.getQtyOnHand())-sellQTY);
+            preparedStatement.setObject(2,itemID);
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
     /*select*from orderdetail;
 +---------+----------+----------+----------+
 | OrderID | ItemCode | OrderQTY | Discount

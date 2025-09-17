@@ -18,4 +18,6 @@ public interface OrderManagementService {
 
     Item getItem(String itemId);
     ObservableList<String> getItems();
+
+    void updatStockCount(String itemID,int sellQTY);
 }
