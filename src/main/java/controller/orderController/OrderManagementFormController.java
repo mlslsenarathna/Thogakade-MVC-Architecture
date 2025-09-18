@@ -211,6 +211,7 @@ public class OrderManagementFormController implements Initializable {
     @FXML
     void btnSetDiscountOnAction(ActionEvent event) {
 
+
     }
 
     @FXML
@@ -246,6 +247,13 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnViewOrdersHistoryOnAction(ActionEvent event) {
+        Stage stage= (Stage) btnViewOrdersHistory.getScene().getWindow();
+        try {
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/ViewOrdersHistory.fxml"))));
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 

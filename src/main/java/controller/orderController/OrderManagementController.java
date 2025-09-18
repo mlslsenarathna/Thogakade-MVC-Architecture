@@ -28,17 +28,7 @@ public class OrderManagementController implements OrderManagementService {
             throw new RuntimeException(e);
         }
     }
-/*select*from orderdetail;
-+---------+----------+----------+----------+
-| OrderID | ItemCode | OrderQTY | Discount
 
- select*from orders;
-+---------+------------+--------+
-| OrderID | OrderDate  | CustID |
-select*from item;
-+----------+-----------------------------+----------+-----------+-----------+
-| ItemCode | Description                 | PackSize | UnitPrice | QtyOnHand
-*/
     @Override
     public double customerTotalValue(String custId) {
         double totalPrice=0;
@@ -57,17 +47,8 @@ select*from item;
 
     return totalPrice;
     }
-    /*select*from orderdetail;
-+---------+----------+----------+----------+
-| OrderID | ItemCode | OrderQTY | Discount
 
- select*from orders;
-+---------+------------+--------+
-| OrderID | OrderDate  | CustID |
-select*from item;
-+----------+-----------------------------+----------+-----------+-----------+
-| ItemCode | Description                 | PackSize | UnitPrice | QtyOnHand
-*/
+
     @Override
     public Item getItem(String itemId){
         String SQL="SELECT*FROM item WHERE  ItemCode=?";
@@ -134,18 +115,52 @@ select*from item;
 
     }
 
+    @Override
+    public ObservableList<Order> getOrders() {
+        ObservableList<Order> orderList=FXCollections.observableArrayList();
+        String SQL="SELECT*FROM orders";
+        //  |   |  |
+        try {
+            Connection connection=DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()){
+                orderList.add(new Order(
+                        resultSet.getString("OrderID"),
+                        resultSet.getDate("OrderDate").toLocalDate(),
+                        resultSet.getString("CustID")
+                ));
+            }
+            return orderList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    /*select*from orderdetail;
-+---------+----------+----------+----------+
-| OrderID | ItemCode | OrderQTY | Discount
+    @Override
+    public ObservableList<OrderDetail> getOrderDetails() {
+        ObservableList<OrderDetail> orderDetailList=FXCollections.observableArrayList();
+        String SQL="SELECT*FROM orderDetail";
 
- select*from orders;
-+---------+------------+--------+
-| OrderID | OrderDate  | CustID |
-select*from item;
-+----------+-----------------------------+----------+-----------+-----------+
-| ItemCode | Description                 | PackSize | UnitPrice | QtyOnHand
-*/
+        try {
+            Connection connection=DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement=connection.prepareStatement(SQL);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while (resultSet.next()){
+                orderDetailList.add(new OrderDetail(
+                        resultSet.getString("OrderID"),
+                        resultSet.getString("ItemCode"),
+                        resultSet.getInt("OrderQTY"),
+                        resultSet.getDouble("Discount")
+                ));
+            }
+            return orderDetailList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @Override
     public ObservableList<OrderDetail> getOrderDetailsInSameOrderID(String orderId){
         ObservableList<OrderDetail> orderDetailsList=FXCollections.observableArrayList();
@@ -173,17 +188,7 @@ select*from item;
             }
 
     }
-    /*select*from orderdetail;
-+---------+----------+----------+----------+
-| OrderID | ItemCode | OrderQTY | Discount
 
- select*from orders;
-+---------+------------+--------+
-| OrderID | OrderDate  | CustID |
-select*from item;
-+----------+-----------------------------+----------+-----------+-----------+
-| ItemCode | Description                 | PackSize | UnitPrice | QtyOnHand
-*/
 
     @Override
     public ObservableList<String> getOrdersInSameCustID(String custId){

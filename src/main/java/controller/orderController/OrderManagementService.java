@@ -3,6 +3,7 @@ package controller.orderController;
 import javafx.collections.ObservableList;
 import model.dto.Customer;
 import model.dto.Item;
+import model.dto.Order;
 import model.dto.OrderDetail;
 
 public interface OrderManagementService {
@@ -20,4 +21,7 @@ public interface OrderManagementService {
     ObservableList<String> getItems();
 
     void updatStockCount(String itemID,int sellQTY);
+
+    ObservableList<Order> getOrders();
+    ObservableList<OrderDetail> getOrderDetails();
 }
