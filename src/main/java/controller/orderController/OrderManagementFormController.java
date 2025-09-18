@@ -1,5 +1,6 @@
 package controller.orderController;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -169,6 +170,24 @@ public class OrderManagementFormController implements Initializable {
 
     @FXML
     void btnPlaceOrderOnAction(ActionEvent event) {
+
+        ObservableList<Item> itemsList=tblItemCartVeiw.getItems();
+        for (Item item:itemsList){
+            if(txtOrderQTY!=null){
+                orderManagementService.updatStockCount(item.getItemCode(),item.getQtyOnHand());
+
+            }else{
+                JOptionPane.showMessageDialog(null,"Please Select items");
+            }
+
+
+
+        }
+        tblItemCartVeiw.getItems().clear();
+        calculateOrderTotal();
+        setItems();
+
+
 
     }
 

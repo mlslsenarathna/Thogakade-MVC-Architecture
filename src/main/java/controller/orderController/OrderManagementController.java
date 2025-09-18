@@ -125,6 +125,7 @@ select*from item;
             PreparedStatement preparedStatement=connection.prepareStatement(SQL);
             preparedStatement.setObject(1,(item.getQtyOnHand())-sellQTY);
             preparedStatement.setObject(2,itemID);
+            preparedStatement.executeUpdate();
 
 
         } catch (SQLException e) {
